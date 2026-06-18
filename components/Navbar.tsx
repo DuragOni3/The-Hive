@@ -36,7 +36,7 @@ export default function Navbar() {
             width={64}
             height={64}
             priority
-            className="h-14 w-14 animate-spin-y object-contain drop-shadow-[0_3px_6px_rgba(0,0,0,0.55)] [transform-style:preserve-3d] md:h-16 md:w-16"
+            className="h-14 w-14 animate-float object-contain drop-shadow-[0_3px_6px_rgba(0,0,0,0.55)] md:h-16 md:w-16"
           />
           <span className="font-display text-white">
             The <span className="text-honey">Hive</span>

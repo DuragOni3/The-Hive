@@ -1,9 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useEffect } from "react";
 import { useMenu } from "@/components/MenuContext";
 import HexBee from "@/components/HexBee";
+import HexGallery from "@/components/HexGallery";
 
 // Three.js must only run on the client
 const BeeHero = dynamic(() => import("@/components/BeeHero"), { ssr: false });
@@ -59,7 +61,7 @@ export default function Home() {
         <div
           className="absolute inset-0 z-10 transition-all duration-500 ease-out"
           style={{
-            transform: open ? "translateX(-20%) scale(0.9)" : "none",
+            transform: open ? "translateX(-16vw) scale(0.9)" : "none",
             opacity: open ? 0.7 : 1,
           }}
         >
@@ -71,17 +73,22 @@ export default function Home() {
         <div
           className="pointer-events-none relative z-20 px-6 text-center transition-all duration-500"
           style={{
-            transform: open ? "translateX(-12%)" : "none",
-            opacity: open ? 0.45 : 1,
+            transform: open ? "translateX(-16vw)" : "none",
+            opacity: open ? 0.7 : 1,
           }}
         >
-          <p className="mb-4 font-display text-sm font-semibold uppercase tracking-[0.4em] text-honey">
+          {/* soft dark halo so the copy stays readable over the bee */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[155%] w-[130%] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-ink/55 blur-2xl"
+          />
+          <p className="mb-4 font-display text-sm font-semibold uppercase tracking-[0.4em] text-honey [text-shadow:0_1px_10px_rgba(0,0,0,0.95)]">
             Rockingham, NC
           </p>
           <h1 className="font-display text-6xl font-extrabold uppercase leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.7)] sm:text-7xl md:text-8xl lg:text-9xl">
             The <span className="text-honey">Hive</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-balance text-base text-white/80 md:text-lg">
+          <p className="mx-auto mt-6 max-w-xl text-balance text-base text-white/90 [text-shadow:0_1px_10px_rgba(0,0,0,0.9)] md:text-lg">
             A private indoor party playground — plus Nectar coffee &amp; ice
             cream. Where every celebration is the bee&apos;s knees.
           </p>
@@ -96,7 +103,7 @@ export default function Home() {
             </a>
             <a
               href="#about"
-              className="rounded-full border border-white/30 px-8 py-3.5 font-display text-sm font-bold uppercase tracking-wide text-white transition hover:border-honey hover:text-honey"
+              className="rounded-full border border-white/50 bg-ink/50 px-8 py-3.5 font-display text-sm font-bold uppercase tracking-wide text-white backdrop-blur-sm transition hover:border-honey hover:bg-ink/70 hover:text-honey"
             >
               Explore
             </a>
@@ -124,11 +131,12 @@ export default function Home() {
           </p>
           <p className="reveal mx-auto mt-4 max-w-3xl text-center text-lg leading-relaxed text-white/75">
             We&apos;re also home to{" "}
-            <span className="font-semibold text-honey">Nectar</span>, our coffee
-            &amp; ice cream bar, and{" "}
+            <span className="font-semibold text-honey">Nectar</span>, our
+            delightful coffee &amp; ice cream bar, and{" "}
             <span className="font-semibold text-honey">Blume</span>, an upscale,
-            cozy room for grown-up gatherings. Whatever the occasion, we&apos;ll
-            make it the bee&apos;s knees.
+            cozy room designed for grown-up gatherings. Whether you&apos;re
+            celebrating something special or simply enjoying good company,
+            we&apos;ll make every occasion the bee&apos;s knees.
           </p>
 
           <div className="reveal mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -167,39 +175,22 @@ export default function Home() {
       </section>
 
       {/* ============ GALLERY ============ */}
-      <section id="gallery" className="relative px-6 py-28 md:py-32">
-        <div className="mx-auto max-w-6xl">
-          <div className="reveal text-center">
+      <section
+        id="gallery"
+        className="relative h-[90vh] min-h-[600px] w-full overflow-hidden"
+      >
+        {/* full-bleed honeycomb fills the section */}
+        <HexGallery />
+
+        {/* title dead-center over the hexagons */}
+        <div className="reveal pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
+          <div className="rounded-3xl bg-ink/55 px-10 py-8 backdrop-blur-sm">
             <p className="mb-3 font-display text-sm font-semibold uppercase tracking-[0.3em] text-honey">
               Gallery
             </p>
             <h2 className="font-display text-4xl font-extrabold uppercase tracking-tight md:text-6xl">
               Buzzin&apos; around The Hive
             </h2>
-          </div>
-
-          <div className="mt-16 grid grid-cols-2 gap-6 sm:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="reveal flex justify-center"
-                style={{ transitionDelay: `${i * 90}ms` }}
-              >
-                <div className="group relative aspect-[1/1.15] w-full max-w-[260px] transition-[filter] duration-300 [filter:drop-shadow(0_0_14px_rgba(255,193,7,0.45))] hover:[filter:drop-shadow(0_0_28px_rgba(255,193,7,0.9))]">
-                  {/* yellow hexagon edge */}
-                  <div className="absolute inset-0 bg-honey [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)]" />
-                  {/* photo placeholder, inset to leave a hexagon border */}
-                  <div className="absolute inset-[3px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-charcoal to-ink [clip-path:polygon(50%_0%,100%_25%,100%_75%,50%_100%,0%_75%,0%_25%)]">
-                    <span className="text-5xl opacity-40 transition duration-300 group-hover:scale-110 group-hover:opacity-70">
-                      🐝
-                    </span>
-                    <span className="absolute bottom-6 left-0 right-0 text-center text-[10px] uppercase tracking-widest text-white/40">
-                      Photo {i + 1}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -273,8 +264,14 @@ export default function Home() {
       {/* ============ FOOTER ============ */}
       <footer className="border-t border-honey/15 bg-black px-6 py-12">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 md:flex-row">
-          <div className="flex items-center gap-2 font-display text-lg font-bold">
-            <span className="text-2xl">🐝</span>
+          <div className="flex items-center gap-3 font-display text-xl font-bold">
+            <Image
+              src="/logo.png"
+              alt="The Hive logo"
+              width={56}
+              height={56}
+              className="h-12 w-12 object-contain drop-shadow-[0_3px_6px_rgba(0,0,0,0.55)]"
+            />
             The <span className="text-honey">Hive</span>
           </div>
 

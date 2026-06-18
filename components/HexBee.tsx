@@ -1,19 +1,31 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useMenu } from "./MenuContext";
 
 /**
  * Renders the hexagon bee artwork (public/hero.png) with a gentle float and a
  * smooth, mouse-driven 3D tilt + drift. Motion is eased every animation frame
- * (lerp toward a target) so it glides instead of snapping.
+ * (lerp toward a target) so it glides instead of snapping. While the menu is
+ * open the bee stops reacting to the mouse and re-centers itself.
  */
 export default function HexBee() {
   const inner = useRef<HTMLDivElement>(null);
   const target = useRef({ rx: 0, ry: 0, tx: 0, ty: 0 });
   const cur = useRef({ rx: 0, ry: 0, tx: 0, ty: 0 });
 
+  const { open } = useMenu();
+  const openRef = useRef(open);
+
+  // keep a live ref of the menu state; recenter the bee when the menu opens
+  useEffect(() => {
+    openRef.current = open;
+    if (open) target.current = { rx: 0, ry: 0, tx: 0, ty: 0 };
+  }, [open]);
+
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
+      if (openRef.current) return; // not interactive while the menu is open
       const nx = e.clientX / window.innerWidth - 0.5; // -0.5 .. 0.5
       const ny = e.clientY / window.innerHeight - 0.5;
       target.current = {
