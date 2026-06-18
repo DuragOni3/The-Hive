@@ -49,34 +49,26 @@ function FacebookIcon() {
 export default function Home() {
   useReveal();
   const { open } = useMenu();
+  const shift = { transform: open ? "translateX(-16vw)" : "none" };
 
   return (
     <main className="bg-ink text-white">
       {/* ============ HERO ============ */}
-      <section className="relative flex h-screen min-h-[640px] w-full items-center justify-center overflow-hidden">
+      <section
+        className="relative flex h-screen min-h-[640px] w-full items-center justify-center overflow-hidden transition-transform duration-500 ease-out"
+        style={shift}
+      >
         {/* radial glow behind the bee */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[80vh] w-[80vh] -translate-x-1/2 -translate-y-1/2 rounded-full bg-honey/10 blur-[120px]" />
 
-        {/* Hexagon bee + particle cloud — shift left and fade when the menu opens */}
-        <div
-          className="absolute inset-0 z-10 transition-all duration-500 ease-out"
-          style={{
-            transform: open ? "translateX(-16vw) scale(0.9)" : "none",
-            opacity: open ? 0.7 : 1,
-          }}
-        >
+        {/* Hexagon bee + particle cloud */}
+        <div className="absolute inset-0 z-10">
           <BeeHero />
           <HexBee />
         </div>
 
-        {/* Overlay copy — also recedes a little when the menu opens */}
-        <div
-          className="pointer-events-none relative z-20 px-6 text-center transition-all duration-500"
-          style={{
-            transform: open ? "translateX(-16vw)" : "none",
-            opacity: open ? 0.7 : 1,
-          }}
-        >
+        {/* Overlay copy */}
+        <div className="pointer-events-none relative z-20 px-6 text-center">
           {/* soft dark halo so the copy stays readable over the bee */}
           <div
             aria-hidden
@@ -113,7 +105,11 @@ export default function Home() {
       </section>
 
       {/* ============ ABOUT ============ */}
-      <section id="about" className="honeycomb-bg relative px-6 py-28 md:py-36">
+      <section
+        id="about"
+        className="honeycomb-bg relative px-6 py-28 md:py-36 transition-transform duration-500 ease-out"
+        style={shift}
+      >
         <div className="mx-auto max-w-5xl">
           <div className="reveal text-center">
             <p className="mb-3 font-display text-sm font-semibold uppercase tracking-[0.3em] text-honey">
@@ -182,9 +178,12 @@ export default function Home() {
         {/* full-bleed honeycomb fills the section */}
         <HexGallery />
 
-        {/* title dead-center over the hexagons */}
+        {/* title dead-center over the hexagons — only the title shifts with the menu */}
         <div className="reveal pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
-          <div className="rounded-3xl bg-ink/55 px-10 py-8 backdrop-blur-sm">
+          <div
+            className="rounded-3xl bg-ink/55 px-10 py-8 backdrop-blur-sm transition-transform duration-500 ease-out"
+            style={shift}
+          >
             <p className="mb-3 font-display text-sm font-semibold uppercase tracking-[0.3em] text-honey">
               Gallery
             </p>
